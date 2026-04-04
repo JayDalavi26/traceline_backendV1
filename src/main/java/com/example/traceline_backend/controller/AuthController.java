@@ -1,11 +1,12 @@
 package com.example.traceline_backend.controller;
 
-
 import com.example.traceline_backend.dto.LoginRequest;
 import com.example.traceline_backend.dto.RegisterRequest;
 import com.example.traceline_backend.model.User;
 import com.example.traceline_backend.repository.UserRepository;
 import com.example.traceline_backend.util.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,17 +27,27 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody LoginRequest request) {
+    public Map<String, Object> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         User user = userRepository.findByUsername(request.getUsername()).orElse(null);
         if (user != null && encoder.matches(request.getPassword(), user.getPassword())
                 && user.getRole().equals(request.getRole())) {
             String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", token);
-            response.put("role", user.getRole());
-            response.put("name", user.getName());
-            response.put("opId", user.getOpId());
-            return response;
+
+            // Create HttpOnly cookie
+            Cookie cookie = new Cookie("token", token);
+            cookie.setHttpOnly(true);      // prevents JavaScript access
+            cookie.setSecure(false);       // set to true in production (HTTPS only)
+            cookie.setPath("/");           // available to whole app
+            cookie.setMaxAge(24 * 60 * 60); // 1 day (same as token expiration)
+            response.addCookie(cookie);
+
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("role", user.getRole());
+            responseBody.put("name", user.getName());
+            responseBody.put("opId", user.getOpId());
+            responseBody.put("token", token);
+            // Do NOT send token in body anymore
+            return responseBody;
         }
         throw new RuntimeException("Invalid credentials");
     }
@@ -62,4 +73,16 @@ public class AuthController {
         response.put("message", "User registered successfully");
         return response;
     }
+
+    @PostMapping("/logout")
+    public Map<String, String> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // delete cookie
+        response.addCookie(cookie);
+        return Map.of("message", "Logged out");
+    }
 }
+
+
