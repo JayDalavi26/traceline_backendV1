@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface OperatorRepository extends MongoRepository<Operator, String> {
     Optional<Operator> findByOpId(String opId);
-
     long countByStatus(String on);
+
+    void deleteByOpId(String id);
 }

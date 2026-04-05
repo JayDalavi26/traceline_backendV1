@@ -45,15 +45,16 @@ public class DashboardService {
         // Average cycle time (simulated, can be computed from scan timestamps)
         double avgCycleTimeHours = calculateAvgCycleTime();
 
-        return new DashboardMetrics() {{
-            setPartsInProduction(totalParts);
-            setTrackingAccuracy(trackingAccuracy);
-            setAnomalies((int) activeAnomalies);
-            setBlockchainTXs(totalBlocks);
-            setActiveOperators((int) activeOperators);
-            setAvgCycleTimeHours(avgCycleTimeHours);
-            setQualityRate(qualityRate);
-        }};
+        DashboardMetrics metrics = new DashboardMetrics();
+        metrics.setPartsInProduction(totalParts);
+        metrics.setTrackingAccuracy(trackingAccuracy);
+        metrics.setAnomalies((int) activeAnomalies);
+        metrics.setBlockchainTXs(totalBlocks);
+        metrics.setActiveOperators((int) activeOperators);
+        metrics.setAvgCycleTimeHours(avgCycleTimeHours);
+        metrics.setQualityRate(qualityRate);
+
+        return metrics;
     }
 
     private double calculateAvgCycleTime() {

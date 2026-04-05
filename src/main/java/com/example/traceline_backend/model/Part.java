@@ -118,4 +118,5 @@ public class Part {
     public void setQualityScore(int qualityScore) {
         this.qualityScore = qualityScore;
     }
+
 }

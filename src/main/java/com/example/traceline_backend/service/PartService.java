@@ -5,6 +5,7 @@ import com.example.traceline_backend.repository.PartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +23,9 @@ public class PartService {
     }
 
     public Part updatePartStage(String partId, String newStage, String operatorId) {
-        Part part = partRepository.findByPartId(partId);
-        if (part != null) {
+        Optional<Part> optionalPart = partRepository.findByPartId(partId);
+        if (optionalPart.isPresent()) {
+            Part part = optionalPart.get();
             part.setStage(newStage);
             part.setOperatorId(operatorId);
             part.setLastScanTime(java.time.LocalDateTime.now());

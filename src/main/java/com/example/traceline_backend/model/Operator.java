@@ -10,12 +10,39 @@ public class Operator {
     private String id;
     private String opId;          // OP-0042
     private String name;
+    private String email;
     private String level;
     private String status;        // on, off, flagged
     private int totalScansToday;
     private double accuracy;
     private int anomalyCount;
     private LocalDateTime lastLogin;
+    private String suspensionReason;
+    private LocalDateTime suspensionEndDate;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSuspensionReason() {
+        return suspensionReason;
+    }
+
+    public void setSuspensionReason(String suspensionReason) {
+        this.suspensionReason = suspensionReason;
+    }
+
+    public LocalDateTime getSuspensionEndDate() {
+        return suspensionEndDate;
+    }
+
+    public void setSuspensionEndDate(LocalDateTime suspensionEndDate) {
+        this.suspensionEndDate = suspensionEndDate;
+    }
 
     public String getId() {
         return id;
