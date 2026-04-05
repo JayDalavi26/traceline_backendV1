@@ -35,4 +35,12 @@ public class AnomalyDetectionService {
     public List<Anomaly> getActiveAnomalies() {
         return anomalyRepository.findByResolvedFalse();
     }
+
+    public List<Anomaly> findByOperatorId(String opId) {
+        return anomalyRepository.findByOperatorId(opId);
+    }
+
+    public List<Anomaly> getAllAnomalies() {
+        return anomalyRepository.findAll();
+    }
 }

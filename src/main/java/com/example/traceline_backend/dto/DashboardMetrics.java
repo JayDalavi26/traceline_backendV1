@@ -9,6 +9,19 @@ public class DashboardMetrics {
     private double avgCycleTimeHours;
     private double qualityRate;
 
+    public DashboardMetrics() {
+    }
+
+    public DashboardMetrics(long partsInProduction, double trackingAccuracy, int anomalies, long blockchainTXs, int activeOperators, double avgCycleTimeHours, double qualityRate) {
+        this.partsInProduction = partsInProduction;
+        this.trackingAccuracy = trackingAccuracy;
+        this.anomalies = anomalies;
+        this.blockchainTXs = blockchainTXs;
+        this.activeOperators = activeOperators;
+        this.avgCycleTimeHours = avgCycleTimeHours;
+        this.qualityRate = qualityRate;
+    }
+
     public long getPartsInProduction() {
         return partsInProduction;
     }

@@ -13,4 +13,8 @@ public interface AnomalyRepository extends MongoRepository<Anomaly, String> {
     long countByDetectedAtAfter(LocalDateTime timestamp);
 
     long countByResolvedFalse();
+
+    List<Anomaly> findByOperatorId(String opId);
+
+    long countByOperatorId(String opId);
 }
