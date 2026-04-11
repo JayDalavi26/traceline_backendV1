@@ -17,7 +17,7 @@ public class ScanController {
     }
 
     @PostMapping
-    public ScanEvent recordScan(@RequestBody ScanRequest request) {
+    public ScanEvent recordScan(@RequestBody ScanRequest request) throws Exception {
         return scanService.recordScan(request.getPartId(), request.getStage(),
                 request.getOperatorId(), request.getOperatorName());
     }

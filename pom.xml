@@ -4,12 +4,14 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.5</version>
+		<version>3.2.4</version>  <!-- ✅ Fixed: Correct Spring Boot version -->
 		<relativePath/>
 	</parent>
+
 	<groupId>com.traceline</groupId>
 	<artifactId>traceline-backend</artifactId>
 	<version>1.0.0</version>
@@ -18,9 +20,20 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<web3j.version>4.9.8</web3j.version>
+		<jjwt.version>0.12.5</jjwt.version>  <!-- ✅ Updated to latest stable -->
+		<okhttp3.version>4.9.0</okhttp3.version>
 	</properties>
 
 	<dependencies>
+
+		<!-- Web3j Spring Boot Starter -->
+		<dependency>
+			<groupId>org.web3j</groupId>
+			<artifactId>web3j-spring-boot-starter</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
 		<!-- Spring Boot Starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -39,28 +52,41 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+		<!-- Email -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 
-		<!-- JJWT API -->
+		<!-- JWT - Updated to latest version -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
-			<version>0.11.5</version>
+			<version>${jjwt.version}</version>
 		</dependency>
-
-		<!-- JJWT Implementation -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
-			<version>0.11.5</version>
+			<version>${jjwt.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-
-		<!-- JJWT Jackson (for JSON parsing) -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
-			<version>0.11.5</version>
+			<version>${jjwt.version}</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Web3j - Ethereum integration -->
+		<dependency>
+			<groupId>org.web3j</groupId>
+			<artifactId>core</artifactId>
+			<version>${web3j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.web3j</groupId>
+			<artifactId>crypto</artifactId>
+			<version>${web3j.version}</version>
 		</dependency>
 
 		<!-- Utilities -->
@@ -96,6 +122,55 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<!-- ✅ Web3j Maven Plugin - Fixed Configuration -->
+			<plugin>
+				<groupId>org.web3j</groupId>
+				<artifactId>web3j-maven-plugin</artifactId>
+				<version>4.9.8</version>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate-sources</goal>
+						</goals>
+						<configuration>
+							<packageName>com.traceline.contract</packageName>
+							<sourceDestination>src/main/java</sourceDestination>
+							<nativeJavaType>true</nativeJavaType>
+							<outputFormat>java</outputFormat>
+							<soliditySourceFiles>
+								<directory>src/main/resources/contracts</directory>
+								<includes>
+									<include>**/*.sol</include>
+								</includes>
+							</soliditySourceFiles>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.web3j</groupId>
+				<artifactId>web3j-maven-plugin</artifactId>
+				<configuration>
+					<packageName>com.yourcompany.blockchain.contract</packageName>
+					<sourceDestination>src/main/java</sourceDestination>
+					<nativeJavaType>true</nativeJavaType>
+					<outputFormat>java</outputFormat>
+				</configuration>
+			</plugin>
+
+
 		</plugins>
+
+		<!-- ✅ Add generated sources to build path -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
 	</build>
 </project>
+

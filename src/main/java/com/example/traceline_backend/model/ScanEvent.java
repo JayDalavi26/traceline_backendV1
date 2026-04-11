@@ -17,6 +17,7 @@ public class ScanEvent  {
     private int blockNumber;
     private String status;   // success, warning, danger
     private String message;
+    private String transactionHash;  // Ethereum transaction hash (proof of blockchain record)
 
     public String getId() {
         return id;
@@ -97,4 +98,8 @@ public class ScanEvent  {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public String getTransactionHash() {return transactionHash;}
+
+    public void setTransactionHash(String transactionHash) {this.transactionHash = transactionHash;}
 }

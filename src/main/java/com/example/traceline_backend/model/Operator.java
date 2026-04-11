@@ -86,6 +86,6 @@ public class Operator {
     }
 
     public void setLastLogin(LocalDateTime lastLogin) {
-        this.lastLogin = lastLogin;
+        this.lastLogin = LocalDateTime.now();
     }
 }

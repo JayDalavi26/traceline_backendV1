@@ -1,0 +1,149 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "partId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "stage",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "operatorId",
+				"type": "string"
+			}
+		],
+		"name": "recordScan",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "partId",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "stage",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "operatorId",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "recordId",
+				"type": "uint256"
+			}
+		],
+		"name": "ScanRecorded",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "getScan",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "partId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "stage",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "operatorId",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getScanCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "scans",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "partId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "stage",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "operatorId",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
