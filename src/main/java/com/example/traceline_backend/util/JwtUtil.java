@@ -1,6 +1,7 @@
 package com.example.traceline_backend.util;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -33,7 +34,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Claims validateToken(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
@@ -41,11 +42,25 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String extractUsername(String token) {
-        return validateToken(token).getSubject();
+    public boolean validateToken(String token,String username) {
+        try {
+            final String extractedUsername = extractUsername(token);
+            return (extractedUsername.equals(username) && !isTokenExpired(token));
+
+        } catch(JwtException | IllegalArgumentException e) {
+            return false;
+        }
     }
 
-    public String extractRole(String token) {
-        return (String) validateToken(token).get("role");
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractAllClaims(token).getExpiration();
+    }
+
+    public String extractUsername(String token) {
+        return extractAllClaims(token).getSubject();
     }
 }

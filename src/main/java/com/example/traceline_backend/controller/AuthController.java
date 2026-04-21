@@ -35,6 +35,11 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    @GetMapping("/users")
+    public Object getAllUsers() {
+        return userRepository.findAll();
+    }
+
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         User user = userRepository.findByUsername(request.getUsername()).orElse(null);
@@ -57,7 +62,11 @@ public class AuthController {
             }
         }
         // =============================================
-
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        System.out.println(encoder.encode("jaya123"));
+//        System.out.println("User Password"+user.getPassword()+ "User name"+user.getName()+"Role"+user.getRole());
+//        boolean value = encoder.matches(request.getPassword(), user.getPassword());
+//        System.out.println("Value : "+value);
         if (user != null && encoder.matches(request.getPassword(), user.getPassword())
                 && user.getRole().equals(request.getRole())) {
             String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
